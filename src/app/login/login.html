@@ -1,0 +1,25 @@
+<div class="d-flex vh-100 align-items-center justify-content-center bg-light">
+  <div class="card login-card shadow-lg p-4" style="width: 380px; border-radius: 14px;">
+    <div class="text-center mb-3">
+      <h4 class="mb-0">نظام بوابات كلية الهندسة - طنطا</h4>
+      <small class="text-muted">تسجيل دخول رجال الأمن</small>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger error-msg py-2">{{ error }}</div>
+
+    <div class="mb-3">
+      <label class="form-label">البريد أو ID</label>
+      <input [(ngModel)]="email" class="form-control" placeholder="guard@eng.tanta.edu" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">كلمة السر</label>
+      <input [(ngModel)]="password" type="password" class="form-control" placeholder="••••••••" />
+    </div>
+
+    <button class="btn btn-primary w-100" (click)="login()" [disabled]="loading">
+      <span *ngIf="!loading">دخول</span>
+      <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+    </button>
+  </div>
+</div>
