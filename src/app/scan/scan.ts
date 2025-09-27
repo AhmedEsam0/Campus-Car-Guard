@@ -9,7 +9,7 @@ import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-scan',
-  imports: [FormsModule, ZXingScannerModule, CommonModule, RouterLink],
+  imports: [FormsModule, ZXingScannerModule, CommonModule],
   templateUrl: './scan.html',
   styleUrl: './scan.css',
 })

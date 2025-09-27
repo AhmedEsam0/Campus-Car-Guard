@@ -1,13 +1,9 @@
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-3 top-bar">
     <h3 class="mb-0">مسح QR - بوابة مجمع الكليات</h3>
-    <div>
-      <a routerLink="/history" class="btn btn-outline-secondary btn-sm me-2">سجل المسحات</a>
-      <button class="btn btn-outline-danger btn-sm" (click)="logout()">تسجيل خروج</button>
-    </div>
   </div>
 
-  <div class="row g-4">
+  <div class="row g-4 mt-3">
     <div class="col-md-7">
       <div class="card shadow-sm p-3">
         <div class="card-body">
@@ -17,12 +13,12 @@
               (scanSuccess)="onScanSuccess($event)"
               [device]="currentDevice"
               [torch]="false"
-              class="camera-box w-100 rounded shadow-sm"
+              class="camera-box w-100 rounded"
             ></zxing-scanner>
           </div>
 
-          <div class="d-flex gap-2 align-items-center">
-            <div class="form-check">
+          <div class="d-flex gap-5 align-items-center">
+            <div class="d-flex align-items-center gap-2">
               <input
                 class="form-check-input"
                 type="radio"
@@ -33,7 +29,7 @@
               />
               <label class="form-check-label" for="dirIn">دخول</label>
             </div>
-            <div class="form-check">
+            <div class="d-flex align-items-center gap-2">
               <input
                 class="form-check-input"
                 type="radio"
@@ -60,26 +56,33 @@
         <div class="card-body">
           <h5 class="card-title">تفاصيل المسح</h5>
 
-          <div *ngIf="foundPermit; else emptyState">
+          <div *ngIf="foundPermit; else emptyState" class="position-relative">
             <div class="mb-2">
+              <img src="/tanta-univ.png" class="w-50" alt="" />
+            </div>
+            <p class="mb-1">
+              <strong>اسم الطالب:</strong> {{ foundPermit.owner?.name || 'غير مسجل' }}
+            </p>
+            <div class="mb-2 position-absolute start-0 top-0 fs-1">
               <span class="badge bg-info text-dark">{{ foundPermit.type | uppercase }}</span>
             </div>
 
             <p class="mb-1">
-              <strong>رقم اللوحة:</strong> {{ foundPermit.vehicle.plate || 'غير متوفر' }}
+              <strong>لوحة السيارة:</strong> {{ foundPermit.vehicle.plate || 'غير متوفر' }}
             </p>
             <p class="mb-1">
-              <strong>موديل:</strong> {{ foundPermit.vehicle.model || 'غير مسجل' }}
+              <strong>موديل السيارة:</strong> {{ foundPermit.vehicle.model || 'غير مسجل' }}
             </p>
-            <p class="mb-1"><strong>المالك:</strong> {{ foundPermit.owner?.name || 'غير مسجل' }}</p>
             <p class="mb-1">
               <strong>صالح من:</strong>
               {{ foundPermit.validFrom ? (foundPermit.validFrom | date : 'short') : '—' }}
             </p>
+            @if (foundPermit.type!=='permanent') {
             <p class="mb-1">
               <strong>صالح إلى:</strong>
               {{ foundPermit.validTo ? (foundPermit.validTo | date : 'short') : '—' }}
             </p>
+            }
 
             <div class="mb-2">
               <textarea
@@ -102,12 +105,15 @@
 
           <ng-template #emptyState>
             <div class="text-center py-5">
-              <img src="assets/qr_ill.svg" alt="qr" style="width: 120px" class="mb-3 opacity-75" />
               <p class="text-muted">لم يتم مسح أي تصريح بعد</p>
             </div>
           </ng-template>
         </div>
       </div>
+    </div>
+    <div>
+      <!-- <a routerLink="/history" class="btn btn-outline-secondary btn-sm me-2">سجل المسحات</a> -->
+      <button class="btn btn-danger w-100" (click)="logout()">تسجيل خروج</button>
     </div>
   </div>
 
@@ -162,6 +168,7 @@
   </div>
 
   <!-- Toast -->
+  @if (toastMsg) {
   <div class="position-fixed top-0 start-50 translate-middle-x mt-3">
     <div
       class="app-toast alert"
@@ -176,4 +183,5 @@
       {{ toastMsg }}
     </div>
   </div>
+  }
 </div>
