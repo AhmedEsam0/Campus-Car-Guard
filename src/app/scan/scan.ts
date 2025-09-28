@@ -17,7 +17,12 @@ export class Scan implements OnInit {
   availableDevices: MediaDeviceInfo[] = [];
   currentDevice?: MediaDeviceInfo;
   lastResult: string | null = null;
-  foundPermit: Permit | null = null;
+  foundPermit: Permit | null = {
+    permitId:'13',type:'banned',
+    vehicle:{plate:'ع أ ب 3231',model:'Nissan Sunny 2021',color:'red'},
+    owner:{name:'عبدالغني السيد نعمان',phone:'01065919339'},
+    validFrom:'9-28-2025'
+  };
   showModal = false;
   direction: 'in' | 'out' = 'in';
   actionReason = '';

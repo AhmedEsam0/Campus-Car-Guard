@@ -1,10 +1,10 @@
 <div class="container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-3 top-bar">
-    <h3 class="mb-0">مسح QR - بوابة مجمع الكليات</h3>
+  <div class="mb-3 top-bar">
+    <h3 class="mb-3 text-center">مسح QR - بوابة مجمع الكليات</h3>
   </div>
 
   <div class="row g-4 mt-3">
-    <div class="col-md-7">
+    <div class="col-lg-7">
       <div class="card shadow-sm p-3">
         <div class="card-body">
           <div class="scanner-wrapper mb-3">
@@ -51,21 +51,43 @@
       </div>
     </div>
 
-    <div class="col-md-5">
-      <div class="card shadow-sm p-3">
+    <div class="col-lg-5">
+      <div class="card shadow-sm py-3 px-0 px-sm-3">
         <div class="card-body">
-          <h5 class="card-title">تفاصيل المسح</h5>
+          <h5 class="card-title text-center mb-4">تفاصيل المسح</h5>
+
+          <div class="mb-4 fs-1">
+            <span
+              class="badge p-3 w-100 d-flex justify-content-center align-items-center gap-2"
+              [ngClass]="{
+                'bg-info text-dark': foundPermit?.type === 'permanent',
+                'bg-warning text-black': foundPermit?.type === 'temporary',
+                'bg-danger text-white': foundPermit?.type === 'banned'
+              }"
+            >
+              <i class="bi bi-check-circle" *ngIf="foundPermit?.type === 'permanent'"></i>
+              <i class="bi bi-hourglass-split" *ngIf="foundPermit?.type === 'temporary'"></i>
+              <i class="bi bi-x-circle" *ngIf="foundPermit?.type === 'banned'"></i>
+              {{
+                foundPermit?.type === 'permanent'
+                  ? 'تصريح دائم'
+                  : foundPermit?.type === 'temporary'
+                  ? 'تصريح مؤقت'
+                  : 'تصريح محظور'
+              }}
+            </span>
+          </div>
+          <div *ngIf="foundPermit?.type === 'permanent'">
+            <b>يسمح بدخول وخروج حامل هذا التصريح بدون قيود او أسباب</b>
+          </div>
 
           <div *ngIf="foundPermit; else emptyState" class="position-relative">
-            <div class="mb-2">
-              <img src="/tanta-univ.png" class="w-50" alt="" />
+            <div class="mb-2 text-center">
+              <img src="/tanta-univ.png" class="w-100" alt="" />
             </div>
             <p class="mb-1">
               <strong>اسم الطالب:</strong> {{ foundPermit.owner?.name || 'غير مسجل' }}
             </p>
-            <div class="mb-2 position-absolute start-0 top-0 fs-1">
-              <span class="badge bg-info text-dark">{{ foundPermit.type | uppercase }}</span>
-            </div>
 
             <p class="mb-1">
               <strong>لوحة السيارة:</strong> {{ foundPermit.vehicle.plate || 'غير متوفر' }}
@@ -138,11 +160,11 @@
         <div class="col-md-6">
           <p>
             <strong>صالح من:</strong>
-            {{ foundPermit.validFrom ? (foundPermit.validFrom | date : 'short') : '—' }}
+            {{ foundPermit.validFrom ? (foundPermit.validFrom | date : 'dd/mm/yyyy') : '—' }}
           </p>
           <p>
             <strong>صالح إلى:</strong>
-            {{ foundPermit.validTo ? (foundPermit.validTo | date : 'short') : '—' }}
+            {{ foundPermit.validTo ? (foundPermit.validTo | date : 'dd/mm/yyyy') : '—' }}
           </p>
         </div>
       </div>
